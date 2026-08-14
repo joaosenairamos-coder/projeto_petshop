@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>PetShop - Animais (PHP + MySQL/Laragon)</title>
+</head>
+<body>
+    <header>
+        <h1>PetShop - Animais</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Rota — animais</h2>
+            <pre id="todos">carregando...</pre>
+        </section>
+        <section>
+            <h2>Rota — animais/especie?especie=Cachorro</h2>
+            <pre id="filtro">carregando...</pre>
+        </section>
+    </main>
+    <footer>
+        <h2>By Lucas</h2>
+    </footer>
+
+    <script>
+        // Ajuste a base conforme o endereço do seu projeto no Laragon,
+        // por exemplo http://petshop.test/back/index.php ou
+        // http://localhost/petshop/back/index.php
+        const base = "http://localhost/petshop/back/index.php";
+
+        fetch(`${base}?rota=animais`)
+            .then(r => r.json())
+            .then(dados => document.getElementById("todos").textContent = JSON.stringify(dados, null, 2));
+
+        fetch(`${base}?rota=animais/especie&especie=Cachorro`)
+            .then(r => r.json())
+            .then(dados => document.getElementById("filtro").textContent = JSON.stringify(dados, null, 2));
+    </script>
+</body>
+</html>
