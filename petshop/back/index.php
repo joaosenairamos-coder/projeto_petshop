@@ -39,8 +39,31 @@ function idadeMedia($con) {
     $stmt = $con->query("SELECT AVG(idade) AS idade_media FROM Animais");
     echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
 }
+//Rota 5 serviços
+function listarServicos($con) {
+    $stmt = $con->query("SELECT * FROM Servicos");
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+}
+//Rota 6 
+function listarServicosPorCategoria($con) {
+    $categoria = $_GET["categoria"] ?? "";
 
+    $stmt = $con->prepare("SELECT * FROM Servicos WHERE categoria = ?");
+    $stmt->execute([$categoria]);
 
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+}
+//rota 7 preço médio
+function mediaPrecoServicos($con) {
+    $stmt = $con->query("SELECT AVG(preco) AS preco_medio FROM Servicos");
+    echo json_encode($stmt->fetch(PDO::FETCH_ASSOC));
+}
+//Rota 8  Preõ por serviço
+function servicosPorPreco($con) {
+    $stmt = $con->query("SELECT * FROM Servicos ORDER BY preco ASC");
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+}
+//rotas
 switch ($rota) {
     case "animais":
         listarAnimais($con);
@@ -56,6 +79,24 @@ switch ($rota) {
 
     case "animais/idade-media":
         idadeMedia($con);
+        break;
+
+    //Novas rotas do serviço
+
+    case "servicos":
+        listarServicos($con);
+        break;
+
+    case "servicos/categoria":
+        listarServicosPorCategoria($con);
+        break;
+
+     case "servicos/media-preco":
+        mediaPrecoServicos($con);
+        break;
+
+     case "servicos/preco":
+        servicosPorPreco($con);
         break;
 
     // TODO (atividade): crie aqui as rotas novas
